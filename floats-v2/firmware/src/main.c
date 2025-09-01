@@ -526,7 +526,8 @@ int main ( void )
             "tests failed: %ld \r\n"
             "total tests:  %ld \r\n"
             "score: %ld/%ld points \r\n"
-            "========= SCREEN OUTPUT COMPLETE: LED SHOULD KEEP BLINKING! \r\n\r\n",
+            "========= SCREEN OUTPUT COMPLETE: LED SHOULD KEEP BLINKING! \r\n"
+            "FINI!!!!!\r\n\r\n",
             (char *) nameStrPtr, testString,
             totalPassCount,
             totalFailCount,
