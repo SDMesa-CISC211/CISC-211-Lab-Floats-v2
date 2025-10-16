@@ -109,8 +109,8 @@ getSignBit:
     output: r0: contains the unpacked original STORED exponent bits,
                 shifted into the lower 8b of the register. Range 0-255.
             r1: always contains the REAL exponent, equal to r0 - 127.
-                It is a signed 32b value. This function doesn't
-                check for +/-Inf or +/-0, so r1 always contains
+                It is a signed 32b value. This function does NOT
+                check for +/-Inf or +/-0, so r1 ALWAYS contains
                 r0 - 127.
                 
 ********************************************************************/

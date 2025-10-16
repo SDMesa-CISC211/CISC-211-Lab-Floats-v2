@@ -525,14 +525,14 @@ int main ( void )
             "tests passed: %ld \r\n"
             "tests failed: %ld \r\n"
             "total tests:  %ld \r\n"
-            "score: %ld/%ld points \r\n"
+            "%s: Final score: %ld/%ld points \r\n"
             "========= SCREEN OUTPUT COMPLETE: LED SHOULD KEEP BLINKING! \r\n"
             "FINI!!!!!\r\n\r\n",
             (char *) nameStrPtr, testString,
             totalPassCount,
             totalFailCount,
             totalTestCount,
-            totalTestPoints, MAX_POSSIBLE_TEST_PTS); 
+            (char *) nameStrPtr, totalTestPoints, MAX_POSSIBLE_TEST_PTS); 
 
     isUSARTTxComplete = false;
     printAndWait((char*)uartTxBuffer,&isUSARTTxComplete);
