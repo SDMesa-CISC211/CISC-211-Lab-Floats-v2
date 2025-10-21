@@ -43,7 +43,8 @@
 
 #include "asmExterns.h"  // references to data defined in asmFloat.s
 
-// asm function to get the SP value. Ensures tested code didn't
+// asm function to get a register value. 
+// Can be used to ensure tested code didn't
 // corrupt the SP. Does NOT ensure that the code actually pushed
 // on entry and popped on exit. Need to look at code to ensure that.
 #define GET_REG(XX,YY) asm volatile("mov %0," #XX : "=r"(*YY))

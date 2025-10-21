@@ -269,7 +269,6 @@
       </toolsSet>
       <packs>
         <pack name="SAME51_DFP" vendor="Microchip" version="3.8.253"/>
-        <pack name="CMSIS" vendor="ARM" version="6.2.0"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
