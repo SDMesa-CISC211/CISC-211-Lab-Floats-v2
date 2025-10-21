@@ -107,12 +107,12 @@ static uint32_t tc2[] = { // DO NOT MODIFY THESE!!!!!
     0x7F000000, // Not so large +
     0x00C00001, // Small +
     0x00C00000, // Small +
-    0x00800001, // Very small +
-    0x00800000, // Very small +
+    0x00800001, // Very small +, but not subnormal
+    0x00800000, // Very small +, but not subnormal
     PLUS_ZERO,  // +0.0
     NEG_ZERO,   // -0.0
-    0x80800000, // very small negative
-    0x80800001, // very small negative
+    0x80800000, // very small -, but not subnormal
+    0x80800001, // very small -, but not subnormal
     0x80C00001, // Small -
     0x80C00000, // Small -
     0xFF000000, // Not so large -
