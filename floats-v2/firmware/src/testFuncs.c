@@ -375,6 +375,8 @@ void calcExpectedValues(
 void testZeroResult(int testNum, 
                       uint32_t testVal, // val passed to asm in r0
                       uint32_t result,  // asm code result
+                      uint32_t sp1,  // pointer to SP before call to student's asm code
+                      uint32_t sp2,  // pointer to SP after call to student's asm code
                       int32_t* passCnt,
                       int32_t* failCnt,
                       volatile bool * txComplete)
@@ -382,8 +384,12 @@ void testZeroResult(int testNum,
     int32_t expectedResult = 0;
     *passCnt = 0;
     *failCnt = 0;
-    char * pfString; // pass/fail string
+    char * pfString = oops; // pass/fail string
+    char * spCheck = oops;
     
+    // verify that the SP was not corrupted by the call to the asm function
+    check((int32_t)sp1,(int32_t)sp2,passCnt,failCnt,&spCheck);
+
     // extract the expected result
     if (testVal == PLUS_ZERO)
     {
@@ -407,15 +413,19 @@ void testZeroResult(int testNum,
     }
     
     snprintf((char*)txBuffer, MAX_PRINT_LEN,
-        "========= asmIsZero Test Number: %d; %s\r\n"
+        "========= asmIsZero Test Number: %d\r\n"
         "hex input value:     0x%08lX\r\n"
         "expected asmIsZero result: %3ld\r\n"
         "actual   asmIsZero result: %3ld\r\n"
+        "zero check:  %s\r\n"
+        "stack check: %s\r\n"
         "\r\n",
-        testNum, pfString,
+        testNum,
         testVal,
         expectedResult,
-        result); 
+        result,
+        pfString,
+        spCheck); 
     
     printAndWait((char*)txBuffer,txComplete);
 
@@ -427,6 +437,8 @@ void testZeroResult(int testNum,
 void testInfResult(int testNum, 
                       uint32_t testVal, // val passed to asm in r0
                       uint32_t result,  // asm code result
+                      uint32_t sp1,  // pointer to SP before call to student's asm code
+                      uint32_t sp2,  // pointer to SP after call to student's asm code
                       int32_t* passCnt,
                       int32_t* failCnt,
                       volatile bool * txComplete)
@@ -434,8 +446,12 @@ void testInfResult(int testNum,
     int32_t expectedResult = 0;
     *passCnt = 0;
     *failCnt = 0;
-    char * pfString; // pass/fail string
+    char * pfString = oops; // pass/fail string
+    char * spCheck = oops;
     
+    // verify that the SP was not corrupted by the call to the asm function
+    check((int32_t)sp1,(int32_t)sp2,passCnt,failCnt,&spCheck);
+
     // extract the expected result
     if (testVal == PLUS_INF)
     {
@@ -459,15 +475,19 @@ void testInfResult(int testNum,
     }
     
     snprintf((char*)txBuffer, MAX_PRINT_LEN,
-        "========= asmIsInf Test Number: %d; %s\r\n"
+        "========= asmIsInf Test Number: %d\r\n"
         "hex input value:     0x%08lX\r\n"
         "expected asmIsInf result: %3ld\r\n"
         "actual   asmIsInf result: %3ld\r\n"
+        "+/-inf check: %s\r\n"
+        "stack check:  %s\r\n"
         "\r\n",
-        testNum, pfString,
+        testNum,
         testVal,
         expectedResult,
-        result); 
+        result,
+        pfString,
+        spCheck); 
     
     printAndWait((char*)txBuffer,txComplete);
 
@@ -481,6 +501,8 @@ void testMaxResult(int testNum,
                       float testVal2, // val passed to asm in r1
                       float *pResult, // pointer to max chosen by asm code
                       float *pGood, //ptr to correct location
+                      uint32_t sp1,  // pointer to SP before call to student's asm code
+                      uint32_t sp2,  // pointer to SP after call to student's asm code
                       int32_t* passCnt,
                       int32_t* failCnt,
                       volatile bool * txComplete)
@@ -504,6 +526,7 @@ void testMaxResult(int testNum,
     char * biasedExpCheck = oops;
     char * unbiasedExpCheck = oops;
     char * mantCheck = oops;
+    char * spCheck = oops;
 
     *passCnt = 0;
     *failCnt = 0;
@@ -546,6 +569,9 @@ void testMaxResult(int testNum,
         calcExpectedValues(testVal1, &e);
     }    
     
+    // verify that the SP was not corrupted by the call to the asm function
+    check((int32_t)sp1,(int32_t)sp2,passCnt,failCnt,&spCheck);
+
     // test that the pointer returned by asmFmax points to global fMax
     check((int32_t)(&fMax),(int32_t)pResult,passCnt,failCnt,&ptrCheck);
 
@@ -571,6 +597,7 @@ void testMaxResult(int testNum,
             "%s: biased expnt expected:   %ld; actual: %ld\r\n"
             "%s: unbiased expnt expected: %ld; actual: %ld\r\n"
             "%s: mantissa expected: 0x%08lX; actual: 0x%08lX\r\n"
+            "%s: stack check\r\n"
             "tests passed: %ld; tests failed: %ld \r\n"
             "\r\n",
             testNum,
@@ -583,6 +610,7 @@ void testMaxResult(int testNum,
             biasedExpCheck,e.biasedExp,storedExpMax,
             unbiasedExpCheck,e.unbiasedExp,realExpMax,
             mantCheck,e.mantissa,mantMax,
+            spCheck,
             *passCnt,*failCnt); 
     
     printAndWait((char*)txBuffer,txComplete);

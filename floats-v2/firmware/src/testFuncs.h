@@ -200,6 +200,8 @@ void calcExpectedValues(
 void testZeroResult(int testNum, 
                       uint32_t testVal, // val passed to asm in r0
                       uint32_t result,  // asm code result
+                      uint32_t sp1,  // pointer to SP before call to student's asm code
+                      uint32_t sp2,  // pointer to SP after call to student's asm code
                       int32_t* passCnt,
                       int32_t* failCnt,
                       volatile bool * txComplete);
@@ -208,6 +210,8 @@ void testZeroResult(int testNum,
 void testInfResult(int testNum, 
                       uint32_t testVal, // val passed to asm in r0
                       uint32_t result,  // asm code result
+                      uint32_t sp1,  // pointer to SP before call to student's asm code
+                      uint32_t sp2,  // pointer to SP after call to student's asm code
                       int32_t* passCnt,
                       int32_t* failCnt,
                       volatile bool * txComplete);
@@ -218,6 +222,8 @@ void testMaxResult(int testNum,
                       float testVal2, // val passed to asm in r1
                       float*pResult, // pointer to max chosen by asm code
                       float *pGood, //ptr to correct location
+                      uint32_t sp1,  // pointer to SP before call to student's asm code
+                      uint32_t sp2,  // pointer to SP after call to student's asm code
                       int32_t* passCnt,
                       int32_t* failCnt,
                       volatile bool * txComplete);

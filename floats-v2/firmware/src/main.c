@@ -43,6 +43,11 @@
 
 #include "asmExterns.h"  // references to data defined in asmFloat.s
 
+// asm function to get the SP value. Ensures tested code didn't
+// corrupt the SP. Does NOT ensure that the code actually pushed
+// on entry and popped on exit. Need to look at code to ensure that.
+#define GET_REG(XX,YY) asm volatile("mov %0," #XX : "=r"(*YY))
+
 /* RTC Time period match values for input clock of 1 KHz */
 #define PERIOD_50MS                             51
 #define PERIOD_500MS                            512
@@ -230,6 +235,11 @@ int main ( void )
     int32_t isInfTestPoints = 0;
     int32_t isZeroTestPoints = 0;
     int32_t fmaxTestPoints = 0;
+
+    uint32_t sp1, sp2; // variables to hold the SP values before and after func calls
+    uint32_t *sp1Ptr = &sp1;
+    uint32_t *sp2Ptr = &sp2;
+
     int iteration = 0;   
     int maxIterations = 0;
     
@@ -258,10 +268,14 @@ int main ( void )
                 {
 
                     // Make the call to the assembly function
+                    GET_REG(sp, sp1Ptr); // get SP value before the call
                     int32_t result = asmIsInf(&tc2[iteration]);
+                    GET_REG(sp, sp2Ptr); // get SP value before the call
 
                     testInfResult(iteration,tc2[iteration],
                             result,                            
+                            sp1,
+                            sp2,
                             &passCount,
                             &failCount,
                             &isUSARTTxComplete);
@@ -311,10 +325,14 @@ int main ( void )
                 {
 
                     // Make the call to the assembly function
+                    GET_REG(sp, sp1Ptr); // get SP value before the call
                     int32_t result = asmIsZero(&tc2[iteration]);
+                    GET_REG(sp, sp2Ptr); // get SP value before the call
 
                     testZeroResult(iteration,tc2[iteration],
                             result,                            
+                            sp1,
+                            sp2,
                             &passCount,
                             &failCount,
                             &isUSARTTxComplete);
@@ -381,11 +399,15 @@ int main ( void )
                     resetAsmMem();
 
                     // Make the call to the assembly function
+                    GET_REG(sp, sp1Ptr); // get SP value before the call
                     max = asmFmax(ff0,ff1);
+                    GET_REG(sp, sp2Ptr); // get SP value before the call
 
                     testMaxResult(iteration,tc[iteration][0],tc[iteration][1],
                             max,
                             &fMax,
+                            sp1,
+                            sp2,
                             &passCount,
                             &failCount,
                             &isUSARTTxComplete);
