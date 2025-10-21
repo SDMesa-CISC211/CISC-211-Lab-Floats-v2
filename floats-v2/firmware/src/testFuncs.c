@@ -401,14 +401,15 @@ void testZeroResult(int testNum,
     }
     
     // compare expected to actual and set pass/fail
+    // this part counts for 2 points
     if (result == expectedResult)
     {
-        *passCnt += 1;
+        *passCnt += 2;
         pfString = pass;
     }
     else
     {
-        *failCnt += 1;
+        *failCnt += 2;
         pfString = fail;
     }
     
@@ -463,14 +464,15 @@ void testInfResult(int testNum,
     }
     
     // compare expected to actual and set pass/fail
+    // this part counts for 2 points
     if (result == expectedResult)
     {
-        *passCnt += 1;
+        *passCnt += 2;
         pfString = pass;
     }
     else
     {
-        *failCnt += 1;
+        *failCnt += 2;
         pfString = fail;
     }
     
